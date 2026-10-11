@@ -6,7 +6,7 @@
 ## • PROJECT OVERVIEW
 **ExaminationLock** is a specialized client-side browser extension engineered for Chromium-based browsers (Google Chrome, Microsoft Edge, Brave, Opera) running on Manifest V3. The system is purpose-built to transform standard **Google Forms** into a secure, proctored testing environment without requiring educators or students to migrate to external testing websites or paid proprietary learning management systems (LMS).
 
-By injecting directly into Google Forms URLs (`https://docs.google.com/forms/*`), ExaminationLock establishes an active security perimeter around the examination session.** It prevents unauthorized tab exploration, monitors window focus, restricts clipboard interactions, frustrates screenshot and screen-recording tools, and enforces full-screen kiosk operation. **If students trigger consecutive policy infractions, a progressive strike system issues real-time warnings before invoking a permanent lockout that requires proctor authorization to resume.
+By injecting directly into Google Forms URLs (`https://docs.google.com/forms/*`), ExaminationLock establishes an active security perimeter around the examination session. **It prevents unauthorized tab exploration, monitors window focus, restricts clipboard interactions, frustrates screenshot and screen-recording tools, and enforces full-screen kiosk operation.** If students trigger consecutive policy infractions, a progressive strike system issues real-time warnings before invoking a permanent lockout that requires proctor authorization to resume.
 
 ---
 
