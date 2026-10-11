@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExaminationLock Controls</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="brand">
+        <span class="brand-icon">🛡️</span>
+        <div>
+          <h1 class="brand-title">ExaminationLock</h1>
+          <p class="brand-sub">Google Forms Anti-Cheat</p>
+        </div>
+      </div>
+      <div class="status-indicator-badge" id="system-status-badge">
+        <span class="status-dot"></span>
+        <span id="system-status-text">Ready</span>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="popup-tabs">
+      <button class="tab-btn active" data-tab="status">Live Status</button>
+      <button class="tab-btn" data-tab="rules">Security Rules</button>
+      <button class="tab-btn" data-tab="logs">Incident Logs</button>
+    </nav>
+
+    <!-- Tab 1: Live Status -->
+    <section class="tab-content active" id="tab-status">
+      <div class="card status-card">
+        <div class="card-row">
+          <span class="label">Target Form:</span>
+          <span class="value" id="status-target-url">Checking...</span>
+        </div>
+        <div class="card-row">
+          <span class="label">Active Exam Tab:</span>
+          <span class="value" id="status-active-tab">None</span>
+        </div>
+        <div class="card-row">
+          <span class="label">Lockout Status:</span>
+          <span class="value badge-normal" id="status-lock-state">Unlocked</span>
+        </div>
+      </div>
+
+      <div class="proctor-actions-box">
+        <h3 class="section-title">Quick Proctor Controls</h3>
+        <div class="pin-verify-group">
+          <input type="password" id="popup-proctor-pin" class="input-field" placeholder="Proctor PIN (Default: 1234)">
+        </div>
+
+        <div class="btn-grid">
+          <button class="btn btn-primary" id="btn-popup-unlock">
+            🔓 Unlock Exam Tab
+          </button>
+          <button class="btn btn-secondary" id="btn-popup-reset-strikes">
+            🔄 Reset Strikes
+          </button>
+        </div>
+        <div class="btn-grid" style="margin-top: 6px;">
+          <button class="btn btn-secondary" id="btn-popup-disable-lock" style="grid-column: span 2; border-color: #dadce0; color: #d93025;">
+            🚫 Turn Off Lock on Active Tab
+          </button>
+        </div>
+        <div id="pin-feedback" class="feedback-msg"></div>
+      </div>
+
+      <div class="test-form-launcher">
+        <a href="https://forms.gle/rhFbggfrh8if1zqp7" target="_blank" class="btn btn-outline" id="btn-open-test-form" style="text-decoration: none;">
+          📝 Open Live Google Forms Test
+        </a>
+      </div>
+    </section>
+
+    <!-- Tab 2: Security Rules & Settings -->
+    <section class="tab-content" id="tab-rules">
+      <div class="settings-list">
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Enable Anti-Cheat</span>
+            <span class="setting-desc">Active protection on Google Forms</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-examActive">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Max Allowed Strikes</span>
+            <span class="setting-desc">Strikes before permanent lockout</span>
+          </div>
+          <input type="number" id="setting-maxStrikes" min="1" max="10" value="3" class="number-input">
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Enforce Fullscreen</span>
+            <span class="setting-desc">Require full screen; flag on exit</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-enforceFullscreen">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Block New Tabs</span>
+            <span class="setting-desc">Auto-close newly opened tabs</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-blockNewTabs">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Block Copy & Paste</span>
+            <span class="setting-desc">Disable clipboard & selection</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-blockCopyPaste">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Block Screenshots</span>
+            <span class="setting-desc">Intercept PrintScreen & wipe buffer</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-blockScreenshots">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Block DevTools & Inspect</span>
+            <span class="setting-desc">Intercept F12 & inspection shortcuts</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-blockDevTools">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <span class="setting-title">Audio Alarms</span>
+            <span class="setting-desc">Play synthesized warning sounds</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-soundAlerts">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item vertical">
+          <div class="setting-text">
+            <span class="setting-title">Proctor Master PIN</span>
+            <span class="setting-desc">Passcode used to override lockouts</span>
+          </div>
+          <div class="pin-edit-group">
+            <input type="text" id="setting-proctorPin" class="input-field" value="1234">
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-actions">
+        <button class="btn btn-primary" id="btn-save-settings">Save Security Rules</button>
+      </div>
+    </section>
+
+    <!-- Tab 3: Incident Logs -->
+    <section class="tab-content" id="tab-logs">
+      <div class="logs-toolbar">
+        <span id="logs-count-badge">0 Incidents Logged</span>
+        <button class="btn btn-sm btn-outline" id="btn-export-logs">📥 Export CSV</button>
+      </div>
+
+      <div class="logs-container" id="logs-list">
+        <div class="empty-logs">No violations recorded yet.</div>
+      </div>
+
+      <div class="logs-footer">
+        <button class="btn btn-sm btn-danger" id="btn-clear-logs">🗑️ Clear Audit Trail</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <span>ExaminationLock v1.0.0</span>
+      <span>•</span>
+      <span>Google Forms Edition</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
